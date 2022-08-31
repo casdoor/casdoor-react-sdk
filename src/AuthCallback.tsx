@@ -1,22 +1,33 @@
+// Copyright 2022 The casbin Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import * as React from "react";
 import Sdk from "casdoor-js-sdk";
 import type { Message } from "./message";
-import { ReactNode } from "react";
 
 export interface AuthCallbackProps {
   sdk: Sdk; // Casdoor Sdk
   serverUrl: string; // your application server URL, e.g., "http://localhost:7000"
-  handleLoginSuccessEvent?: (res: Response) => void; // callback method after calling the `signin` method of Casdoor Sdk successfully
-  handleLoginFailureEvent?: (res: Response) => void; // Callback method after calling the `signin` method of Casdoor Sdk fails
-  elementForLoginSuccessful: ReactNode; // This element is used to display after the callback is successful
-  elementForLoginFailure: ReactNode; // This element is used to display after failure
+  saveTokenFromResponse?: (res: Response) => void; // callback method after calling the `signin` method of Casdoor Sdk successfully
+  isGetTokenSuccessful: (res: Response) => boolean; // determine whether the token is obtained successfully
 }
 
 export interface AuthCallbackState {
   message: null | string;
 }
 
-class AuthCallback extends React.Component<
+export class AuthCallback extends React.Component<
   AuthCallbackProps,
   AuthCallbackState
 > {
@@ -25,22 +36,19 @@ class AuthCallback extends React.Component<
   }
 
   signin = () => {
-    const { sdk, serverUrl, handleLoginSuccessEvent, handleLoginFailureEvent } =
+    const { sdk, serverUrl, isGetTokenSuccessful, saveTokenFromResponse } =
       this.props;
     sdk.signin(serverUrl).then((res) => {
-      // @ts-ignore
-      if (res.status === "ok") {
+      if (isGetTokenSuccessful(res)) {
         if (window !== window.parent) {
           this.sendSuccessfulLoginMessage();
         }
-        if (handleLoginSuccessEvent) {
-          handleLoginSuccessEvent(res);
+        if (saveTokenFromResponse) {
+          saveTokenFromResponse(res);
         }
       } else {
-        // @ts-ignore
-        this.setState({ message: res.msg });
-        if (handleLoginFailureEvent) {
-          handleLoginFailureEvent(res);
+        if (window !== window.parent) {
+          this.sendLoginFailureMessage();
         }
       }
     });
@@ -52,21 +60,19 @@ class AuthCallback extends React.Component<
       type: "SilentSignin",
       data: "success",
     };
-    window.postMessage(message, "*");
+    window.parent.postMessage(message, "*");
   };
 
-  renderContent = () => {
-    const { elementForLoginSuccessful, elementForLoginFailure } = this.props;
-    if (this.state.message !== null) {
-      return elementForLoginSuccessful;
-    } else {
-      return elementForLoginFailure;
-    }
+  sendLoginFailureMessage = () => {
+    const message: Message = {
+      tag: "Casdoor",
+      type: "SilentSignin",
+      data: "login-failure",
+    };
+    window.parent.postMessage(message, "*");
   };
 
   render() {
-    return <div>{this.renderContent()}</div>;
+    return <></>;
   }
 }
-
-export default AuthCallback;

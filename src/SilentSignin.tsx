@@ -1,3 +1,17 @@
+// Copyright 2022 The casbin Authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import * as React from "react";
 import Sdk from "casdoor-js-sdk";
 import type { Message } from "./message";
@@ -9,7 +23,7 @@ export interface SilentSigninProps {
   handleReceivedSilentSigninFailureEvent?: (message: Message) => void; // the callback method when the event of silent sign in failure is received
 }
 
-class SilentSignin extends React.Component<SilentSigninProps, any> {
+export class SilentSignin extends React.Component<SilentSigninProps, any> {
   componentDidMount() {
     this.listenForSilentSigninEvents();
   }
@@ -25,18 +39,15 @@ class SilentSignin extends React.Component<SilentSigninProps, any> {
       (event: MessageEvent<Readonly<Message>>) => {
         const message = event.data;
 
-        if (message.tag !== "Casdoor") {
+        if (message.tag !== "Casdoor" || message.type !== "SilentSignin") {
           return;
         }
 
-        if (message.type === "SilentSignin" && message.data === "success") {
+        if (message.data === "success") {
           if (handleReceivedSilentSigninSuccessEvent) {
             handleReceivedSilentSigninSuccessEvent(message);
           }
-        } else if (
-          message.type === "SilentSignin" &&
-          message.data === "user-not-logged-in"
-        ) {
+        } else {
           if (handleReceivedSilentSigninFailureEvent) {
             handleReceivedSilentSigninFailureEvent(message);
           }
@@ -67,4 +78,7 @@ class SilentSignin extends React.Component<SilentSigninProps, any> {
   }
 }
 
-export default SilentSignin;
+export function isSilentSigninRequired(): boolean {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("silentSignin") === "1";
+}

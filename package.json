@@ -2,6 +2,9 @@
   "name": "casdoor-react-sdk",
   "version": "0.0.1",
   "description": "React client SDK for Casdoor",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest",
@@ -12,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/casdoor/casdoor-react-sdk.git"
   },
+  "files": [
+    "lib"
+  ],
   "keywords": [
     "auth",
     "authentication",

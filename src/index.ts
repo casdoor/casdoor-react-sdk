@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export interface Message {
-  tag: string;
-  type: string;
-  data: string;
-}
+export * from "./message";
+export * from "./AuthCallback";
+export * from "./SilentSignin";
