@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SilentSignin/> should render <iframe/> 1`] = `
+<iframe
+  frameBorder="no"
+  id="iframeTask"
+  src="http://localhost/login/oauth/authorize?client_id=&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&scope=read&state=&silentSignin=1"
+  style={
+    {
+      "display": "none",
+    }
+  }
+/>
+`;
+
+exports[`<SilentSignin/> should render null 1`] = `null`;
