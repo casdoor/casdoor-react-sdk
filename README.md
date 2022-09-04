@@ -1,5 +1,13 @@
 # casdoor-react-sdk
 
+[![NPM version](https://img.shields.io/npm/v/casdoor-react-sdk)](https://npmjs.com/package/casdoor-react-sdk)
+[![NPM download](https://img.shields.io/npm/dm/casdoor-react-sdk)](https://npmjs.com/package/casdoor-react-sdk)
+[![Github Actions](https://github.com/casdoor/casdoor-react-sdk/actions/workflows/release.yaml/badge.svg)](https://github.com/casdoor/casdoor-react-sdk/actions/workflows/release.yaml)
+[![Coverage Status](https://codecov.io/gh/casdoor/casdoor-react-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/casdoor/casdoor-react-sdk)
+[![Release](https://img.shields.io/github/v/release/casdoor/casdoor-react-sdk)](https://github.com/casdoor/casdoor-react-sdk/releases/latest)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/casbin/casdoor)
+
+
 It can help you quickly build a silent sign-in application based on Casdoor.
 
 We have an implemented example: [casnode](https://github.com/casbin/casnode).
