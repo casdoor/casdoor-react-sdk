@@ -31,7 +31,7 @@ export class AuthCallback extends React.Component<
   AuthCallbackProps,
   AuthCallbackState
 > {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.signin();
   }
 
