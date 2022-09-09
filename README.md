@@ -10,7 +10,7 @@
 
 It can help you quickly build a silent sign-in application based on Casdoor.
 
-We have an implemented example: [casnode](https://github.com/casbin/casnode).
+We have an implemented example: [casdoor-spring-security-react-example](https://github.com/casdoor/casdoor-spring-security-react-example).
 
 To use this sdk just follow the steps below.
 
