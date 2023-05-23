@@ -1663,10 +1663,10 @@ cardinal@^2.1.1:
     ansicolors "~0.3.2"
     redeyed "~2.1.0"
 
-casdoor-js-sdk@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/casdoor-js-sdk/-/casdoor-js-sdk-0.3.0.tgz#89475e30e16f10082e2bf5b78b94324c7bce1b64"
-  integrity sha512-Mf0OEOGrD6cU8X+gzsgeZrKvC9JxHobgCHeBlKHMvNWKeU4J3sfmhWonOwF4iFnbvrK7I2a5YOpO9gAoSayB1g==
+casdoor-js-sdk@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/casdoor-js-sdk/-/casdoor-js-sdk-0.10.0.tgz#aba3014a835820f47c20905fa84ab9773e65fa2a"
+  integrity sha512-PmSNNDhABCtki0C6DmBF01a5XieL1ilHlXa4+m7xur24/Rj+WnKJFxvXIPHlnzqFntFXkJMW0nxuwSV+47TpLA==
 
 chalk@^2.0.0, chalk@^2.3.2:
   version "2.4.2"
