@@ -64,7 +64,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-test-renderer": "^18.0.0",
-    "casdoor-js-sdk": "^0.3.0",
+    "casdoor-js-sdk": "^0.10.0",
     "eslint": "^8.23.0",
     "eslint-plugin-react": "^7.31.1",
     "isomorphic-fetch": "^3.0.0",

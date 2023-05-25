@@ -41,6 +41,7 @@ const sdkConfig = {
   appName: "application_hnpzib",
   organizationName: "organization_4emn5k",
   redirectPath: "/callback",
+  signinPath: "/api/signin",
 };
 
 export const CasdoorSDK = new Sdk(sdkConfig);
@@ -67,13 +68,13 @@ function App() {
       saveTokenFromResponse={(res) => {
         // @ts-ignore
         // save token
-        localStorage.setItem("token", res.token);
+        localStorage.setItem("token", res.data.accessToken);
       }}
       isGetTokenSuccessful={(res) => {
         // @ts-ignore
         // according to the data returned by the server,
         // determine whether the `token` is successfully obtained through `code` and `state`.
-        return res.status === "ok";
+        return res.success === true;
       }}
     />
   );
@@ -133,4 +134,3 @@ function HomePage() {
 
 export default HomePage;
 ```
-
