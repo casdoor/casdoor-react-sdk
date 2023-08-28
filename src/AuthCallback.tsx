@@ -17,7 +17,7 @@ import Sdk from "casdoor-js-sdk";
 import type { Message } from "./message";
 
 export interface AuthCallbackProps {
-  sdk: Sdk; // Casdoor Sdk
+  config: any; // Casdoor Sdk config
   serverUrl: string; // your application server URL, e.g., "http://localhost:7000"
   saveTokenFromResponse?: (res: Response) => void; // callback method after calling the `signin` method of Casdoor Sdk successfully
   isGetTokenSuccessful: (res: Response) => boolean; // determine whether the token is obtained successfully
@@ -36,8 +36,8 @@ export class AuthCallback extends React.Component<
   }
 
   signin = () => {
-    const { sdk, serverUrl, isGetTokenSuccessful, saveTokenFromResponse } =
-      this.props;
+    const { config, serverUrl, isGetTokenSuccessful, saveTokenFromResponse } = this.props;
+    const sdk = new Sdk(config)
     sdk.signin(serverUrl).then((res) => {
       if (isGetTokenSuccessful(res)) {
         if (window !== window.parent) {
