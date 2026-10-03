@@ -52,3 +52,45 @@ it("<SilentSignin/> should render null", () => {
 
   expect(tree).toMatchSnapshot();
 });
+
+it("<SilentSignin/> should ignore the signing-in message", () => {
+  const fakeSdk = new Sdk({
+    serverUrl: "http://localhost",
+    clientId: "",
+    appName: "",
+    organizationName: "",
+  });
+
+  const onSuccess = jest.fn();
+  const onFailure = jest.fn();
+
+  const component = renderer.create(
+    <SilentSignin
+      sdk={fakeSdk}
+      isLoggedIn={() => false}
+      handleReceivedSilentSigninSuccessEvent={onSuccess}
+      handleReceivedSilentSigninFailureEvent={onFailure}
+    />
+  );
+
+  const post = (data: string) =>
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        data: { tag: "Casdoor", type: "SilentSignin", data },
+      })
+    );
+
+  post("signing-in");
+  expect(onSuccess).not.toHaveBeenCalled();
+  expect(onFailure).not.toHaveBeenCalled();
+
+  post("success");
+  expect(onSuccess).toHaveBeenCalledTimes(1);
+
+  post("user-not-logged-in");
+  expect(onFailure).toHaveBeenCalledTimes(1);
+
+  component.unmount();
+  post("success");
+  expect(onSuccess).toHaveBeenCalledTimes(1);
+});

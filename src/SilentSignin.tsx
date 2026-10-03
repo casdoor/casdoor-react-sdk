@@ -25,35 +25,40 @@ export interface SilentSigninProps {
 
 export class SilentSignin extends React.Component<SilentSigninProps, any> {
   componentDidMount() {
-    this.listenForSilentSigninEvents();
+    window.addEventListener("message", this.handleMessage);
   }
 
-  listenForSilentSigninEvents = () => {
+  componentWillUnmount() {
+    window.removeEventListener("message", this.handleMessage);
+  }
+
+  handleMessage = (event: MessageEvent<Readonly<Message>>) => {
     const {
       handleReceivedSilentSigninSuccessEvent,
       handleReceivedSilentSigninFailureEvent,
     } = this.props;
 
-    window.addEventListener(
-      "message",
-      (event: MessageEvent<Readonly<Message>>) => {
-        const message = event.data;
+    const message = event.data;
 
-        if (message.tag !== "Casdoor" || message.type !== "SilentSignin") {
-          return;
-        }
+    if (message?.tag !== "Casdoor" || message.type !== "SilentSignin") {
+      return;
+    }
 
-        if (message.data === "success") {
-          if (handleReceivedSilentSigninSuccessEvent) {
-            handleReceivedSilentSigninSuccessEvent(message);
-          }
-        } else {
-          if (handleReceivedSilentSigninFailureEvent) {
-            handleReceivedSilentSigninFailureEvent(message);
-          }
-        }
+    // Casdoor's login page sends "signing-in" before it redirects to the callback,
+    // it is a progress notice rather than a result
+    if (message.data === "signing-in") {
+      return;
+    }
+
+    if (message.data === "success") {
+      if (handleReceivedSilentSigninSuccessEvent) {
+        handleReceivedSilentSigninSuccessEvent(message);
       }
-    );
+    } else {
+      if (handleReceivedSilentSigninFailureEvent) {
+        handleReceivedSilentSigninFailureEvent(message);
+      }
+    }
   };
 
   render() {
